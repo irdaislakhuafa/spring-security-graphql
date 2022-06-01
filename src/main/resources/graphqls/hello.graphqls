@@ -1,0 +1,15 @@
+type Hello {
+  message: String!
+}
+
+input HelloRequest {
+  to: String!
+}
+
+type HelloQuery {
+  sayHello: Hello!
+}
+
+type HelloMutation {
+  sayHello(request: HelloRequest!): Hello!
+}
