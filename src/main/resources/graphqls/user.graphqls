@@ -1,0 +1,22 @@
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  roles: [String!]!
+  password: String!
+}
+
+input UserRequest {
+  name: String!
+  email: String!
+  roles: [String!]!
+  password: String!
+}
+
+type UserQuery {
+  findAll: [User]
+}
+
+type UserMutation {
+  register(request: UserRequest!): User!
+}

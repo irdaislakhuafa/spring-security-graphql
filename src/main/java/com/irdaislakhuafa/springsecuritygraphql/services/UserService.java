@@ -1,7 +1,6 @@
 package com.irdaislakhuafa.springsecuritygraphql.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -22,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 public class UserService implements UserDetailsService, BaseService<User, UserRequest> {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Override
     public Optional<User> save(User entity) {
@@ -40,16 +40,17 @@ public class UserService implements UserDetailsService, BaseService<User, UserRe
     }
 
     @Override
-    public User toEntity(UserRequest request) {
+    public User toEntity(UserRequest request) throws NoSuchElementException {
         return User.builder()
                 .name(request.getName())
                 .email(request.getEmail())
+                .roles(this.roleService.findAllByName(request.getRoles()))
                 .password(request.getPassword())
                 .build();
     }
 
     @Override
-    public List<User> toEntities(List<UserRequest> requests) {
+    public List<User> toEntities(List<UserRequest> requests) throws NoSuchElementException {
         return requests.stream().map((r) -> this.toEntity(r)).collect(Collectors.toList());
     }
 

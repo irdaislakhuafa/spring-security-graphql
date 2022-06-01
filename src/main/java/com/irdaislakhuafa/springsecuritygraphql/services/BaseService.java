@@ -1,7 +1,6 @@
 package com.irdaislakhuafa.springsecuritygraphql.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public interface BaseService<T, R> {
     public Optional<T> save(T entity);
@@ -10,7 +9,7 @@ public interface BaseService<T, R> {
 
     public List<T> findAll();
 
-    public T toEntity(R request);
+    public T toEntity(R request) throws NoSuchElementException;
 
-    public List<T> toEntities(List<R> requests);
+    public List<T> toEntities(List<R> requests) throws NoSuchElementException;
 }

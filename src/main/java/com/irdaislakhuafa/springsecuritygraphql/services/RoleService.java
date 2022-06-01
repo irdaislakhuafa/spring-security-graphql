@@ -1,7 +1,6 @@
 package com.irdaislakhuafa.springsecuritygraphql.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
@@ -47,4 +46,15 @@ public class RoleService implements BaseService<Role, RoleRequest> {
         return requests.stream().map((r) -> this.toEntity(r)).collect(Collectors.toList());
     }
 
+    public List<Role> findAllByName(String... names) throws NoSuchElementException {
+        var list = new ArrayList<Role>();
+        for (var name : names) {
+            var role = roleRepository.findByNameEqualsIgnoreCase(name);
+            if (!role.isPresent()) {
+                throw new NoSuchElementException("role not found");
+            }
+            list.add(role.get());
+        }
+        return list;
+    }
 }
