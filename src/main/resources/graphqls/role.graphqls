@@ -1,0 +1,16 @@
+type Role {
+  id: ID!
+  name: String!
+}
+
+input RoleRequest {
+  name: String!
+}
+
+type RoleQuery {
+  findAll: [Role!]!
+}
+
+type RoleMutation {
+  new(request: RoleRequest!): Role
+}

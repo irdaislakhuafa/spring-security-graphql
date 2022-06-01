@@ -1,6 +1,8 @@
 type Query {
   hello: HelloQuery!
+  role: RoleQuery!
 }
 type Mutation {
   hello: HelloMutation!
+  role: RoleMutation!
 }
