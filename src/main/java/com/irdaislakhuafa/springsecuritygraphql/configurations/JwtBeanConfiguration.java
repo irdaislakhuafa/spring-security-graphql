@@ -1,6 +1,5 @@
 package com.irdaislakhuafa.springsecuritygraphql.configurations;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,11 +7,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class JwtBeanConfiguration {
-    @Value(value = "${jwt.secret.key}")
-    private String secretKey;
+    // @Value(value = "${jwt.secret.key}")
+    // private String secretKey;
 
-    @Value(value = "${jwt.token.expired.in.minute}")
-    private long tokenExpiredInMinute;
+    // @Value(value = "${jwt.token.expired.in.minute}")
+    // private long tokenExpiredInMinute;
 
     // @Bean
     // public Algorithm algorithm() {
