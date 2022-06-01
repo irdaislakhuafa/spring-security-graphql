@@ -15,7 +15,7 @@ public class SecurityConfiguration {
                 // disable login form
                 .csrf().disable()
 
-                .authorizeRequests().anyRequest().permitAll();
+                .authorizeRequests().antMatchers("/graphiql", "/graphql").permitAll();
 
         // disable session
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

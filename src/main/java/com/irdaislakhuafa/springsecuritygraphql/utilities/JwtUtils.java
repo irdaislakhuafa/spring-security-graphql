@@ -56,4 +56,19 @@ public class JwtUtils {
         log.info("success get claims");
         return claims;
     }
+
+    public boolean isExpired(String tokenString) throws Exception {
+        log.info("check is token expired");
+        if (this.getClaimsFromTokenString(tokenString)
+                .get("expiredAt", Date.class)
+                .after(new Date(System.currentTimeMillis()))) {
+
+            log.info("token is expired");
+            return false;
+        } else {
+            log.info("token is valid");
+            return true;
+        }
+
+    }
 }
