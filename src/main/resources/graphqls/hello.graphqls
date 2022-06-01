@@ -2,7 +2,7 @@ type Hello {
   message: String!
 }
 
-input HelloInput {
+input HelloRequest {
   to: String!
 }
 
@@ -11,5 +11,5 @@ type HelloQuery {
 }
 
 type HelloMutation {
-  sayHello(request: HelloInput!): Hello!
+  sayHello(request: HelloRequest!): Hello!
 }
