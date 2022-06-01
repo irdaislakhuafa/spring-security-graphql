@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import com.irdaislakhuafa.springsecuritygraphql.entities.User;
 import com.irdaislakhuafa.springsecuritygraphql.entities.repositories.UserRepository;
 import com.irdaislakhuafa.springsecuritygraphql.entities.requests.user.UserRequest;
+import com.irdaislakhuafa.springsecuritygraphql.entities.requests.user.UserResponse;
 
 import org.springframework.security.core.userdetails.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,6 +55,17 @@ public class UserService implements UserDetailsService, BaseService<User, UserRe
         return requests.stream().map((r) -> this.toEntity(r)).collect(Collectors.toList());
     }
 
+    public UserResponse toResponse(User entity) {
+        var response = UserResponse.builder()
+                .id(entity.getId())
+                .email(entity.getEmail())
+                .name(entity.getName())
+                .password(entity.getPassword())
+                .roles(entity.getRoles().stream().map((r) -> r.getName()).collect(Collectors.toList()))
+                .build();
+        return response;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository
@@ -63,4 +75,7 @@ public class UserService implements UserDetailsService, BaseService<User, UserRe
                                 "user with email: " + username.toUpperCase() + " not found"));
     }
 
+    public Optional<User> findById(String id) {
+        return this.userRepository.findById(id);
+    }
 }

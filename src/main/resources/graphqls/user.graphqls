@@ -19,4 +19,5 @@ type UserQuery {
 
 type UserMutation {
   register(request: UserRequest!): User!
+  addRole(userId: String, role: String!): User!
 }

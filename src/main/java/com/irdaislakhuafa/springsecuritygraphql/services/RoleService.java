@@ -57,4 +57,8 @@ public class RoleService implements BaseService<Role, RoleRequest> {
         }
         return list;
     }
+
+    public Optional<Role> findByName(String name) {
+        return roleRepository.findByNameEqualsIgnoreCase(name);
+    }
 }
