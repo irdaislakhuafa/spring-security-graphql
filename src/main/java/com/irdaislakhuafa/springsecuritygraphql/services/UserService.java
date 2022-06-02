@@ -78,4 +78,8 @@ public class UserService implements UserDetailsService, BaseService<User, UserRe
     public Optional<User> findById(String id) {
         return this.userRepository.findById(id);
     }
+
+    public Optional<User> findByEmail(String email) {
+        return this.userRepository.findByEmailEqualsIgnoreCase(email);
+    }
 }
