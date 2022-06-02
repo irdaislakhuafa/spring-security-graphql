@@ -1,6 +1,17 @@
+scalar Object
+
+type ResponseToken {
+  token: String!
+}
+
 type Query {
   hello: HelloQuery!
+  role: RoleQuery!
+  user: UserQuery!
 }
+
 type Mutation {
   hello: HelloMutation!
+  role: RoleMutation!
+  user: UserMutation!
 }
