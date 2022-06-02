@@ -13,7 +13,6 @@ import com.irdaislakhuafa.springsecuritygraphql.utilities.JwtUtils;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 
@@ -31,9 +30,10 @@ public class UserMutation {
     private final JwtUtils jwtUtils;
 
     @SchemaMapping(field = "register")
-    public User register(@Argument(name = "request") UserRequest request) throws NoSuchElementException {
+    public UserResponse register(@Argument(name = "request") UserRequest request) throws NoSuchElementException {
         var user = this.userService.save(this.userService.toEntity(request));
-        return user.orElse(null);
+        var response = this.userService.toResponse(user.get());
+        return response;
     }
 
     @SchemaMapping(field = "login")

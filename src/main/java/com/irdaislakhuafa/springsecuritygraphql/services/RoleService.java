@@ -51,7 +51,10 @@ public class RoleService implements BaseService<Role, RoleRequest> {
         for (var name : names) {
             var role = roleRepository.findByNameEqualsIgnoreCase(name);
             if (!role.isPresent()) {
-                throw new NoSuchElementException("role not found");
+                var newRole = Role.builder()
+                        .name(name)
+                        .build();
+                role = this.save(newRole);
             }
             list.add(role.get());
         }
