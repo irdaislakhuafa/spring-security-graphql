@@ -1,6 +1,6 @@
 package com.irdaislakhuafa.springsecuritygraphql.utilities;
 
-import java.util.Date;
+import java.util.*;
 
 import com.irdaislakhuafa.springsecuritygraphql.entities.User;
 
@@ -19,10 +19,10 @@ public class JwtUtils {
     @Value(value = "${jwt.token.expired.in.minute}")
     private long tokenExpiredInMinute;
 
-    private Claims generateClaims(User user) {
+    private Map<String, Object> generateClaims(User user) {
         log.info("generate claims");
 
-        Claims claims = Jwts.claims();
+        Map<String, Object> claims = new HashMap<>();
         claims.put("userId", user.getId());
         claims.put("roles", user.getAuthorities());
 
@@ -31,7 +31,11 @@ public class JwtUtils {
     }
 
     public String generateTokenString(User user) {
-        var claims = this.generateClaims(user);
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", user.getId());
+        claims.put("roles", user.getAuthorities());
+
+        log.info("success generate claims");
 
         log.info("generate token string");
         var tokenString = Jwts
@@ -46,12 +50,12 @@ public class JwtUtils {
         return tokenString;
     }
 
-    public Claims getClaimsFromTokenString(String tokenString) throws Exception {
+    public Claims getClaimsFromTokenString(String tokenString) {
         log.info("get claims from token string");
         var claims = Jwts
                 .parser()
                 .setSigningKey(secretKey)
-                .parseClaimsJwt(tokenString)
+                .parseClaimsJws(tokenString)
                 .getBody();
         log.info("success get claims");
         return claims;
@@ -60,7 +64,7 @@ public class JwtUtils {
     public boolean isExpired(String tokenString) throws Exception {
         log.info("check is token expired");
         if (this.getClaimsFromTokenString(tokenString)
-                .get("expiredAt", Date.class)
+                .get("exp", Date.class)
                 .after(new Date(System.currentTimeMillis()))) {
 
             log.info("token is expired");
@@ -74,6 +78,6 @@ public class JwtUtils {
 
     public boolean validateTokenString(String tokenString, User user) throws Exception {
         var claims = this.getClaimsFromTokenString(tokenString);
-        return (claims.get("userId", String.class).equalsIgnoreCase(user.getEmail())) && this.isExpired(tokenString);
+        return (claims.get("userId", String.class).equalsIgnoreCase(user.getId())) && !this.isExpired(tokenString);
     }
 }
