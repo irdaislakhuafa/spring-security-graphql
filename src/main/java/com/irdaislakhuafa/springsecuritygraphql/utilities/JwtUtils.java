@@ -71,4 +71,9 @@ public class JwtUtils {
         }
 
     }
+
+    public boolean validateTokenString(String tokenString, User user) throws Exception {
+        var claims = this.getClaimsFromTokenString(tokenString);
+        return (claims.get("userId", String.class).equalsIgnoreCase(user.getEmail())) && this.isExpired(tokenString);
+    }
 }
