@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 @SchemaMapping(typeName = "HelloQuery")
 public class HelloQuery {
     @SchemaMapping(field = "sayHello")
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_ADMIN','ROLE_USER')")
     public Hello sayHello() {
         return Hello.builder().message("Hi my name is irda islakhu afa").build();
     }
